@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donkey Kong Web Edition</title>
+
+    <script src="https://cjrtnc.leaningtech.com/3.0/loader.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            background-color: #111; /* Fundo um pouco mais escuro */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        #game-container {
+            box-shadow: 0 0 30px rgba(0,0,0,0.7);
+            border: 3px solid #333;
+            background-color: #000;
+        }
+        h1 { margin-bottom: 20px; font-size: 24px; }
+    </style>
+</head>
+<body>
+
+<h1>A carregar o jogo...</h1>
+<div id="game-container"></div>
+
+<script>
+    async function loadGame() {
+        // Inicializa o tradutor de Java para Browser
+        await cheerpjInit();
+
+        // Define o tamanho da janela do jogo
+        // Dica: Se o teu jogo for maior ou menor, altera os números 800 e 600 aqui
+        cheerpjCreateDisplay(800, 600, document.getElementById("game-container"));
+
+        // Carrega o teu ficheiro JAR específico
+        // O caminho /app/ é obrigatório pelo CheerpJ para encontrar o ficheiro na mesma pasta
+        await cheerpjRunJar("/app/HongKong.jar");
+
+        // Remove a mensagem de carregamento quando o jogo iniciar
+        document.querySelector('h1').innerText = "Bom jogo!";
+    }
+
+    loadGame();
+</script>
+</body>
+</html>
