@@ -11,15 +11,15 @@
     <div id="game-container" style="border: 2px solid #555; width:480px; height:500px;"></div>
 
     <script>
-        // Esta função só corre quando o motor estiver carregado
         window.onload = async function() {
             try {
+                // Tenta ligar o motor 3.0
                 await cheerpjInit();
                 cheerpjCreateDisplay(480, 500, document.getElementById("game-container"));
-                // Corre o JAR de 40KB que já está no teu GitHub
+                // Pede o ficheiro que VIMOS na lista de assets do Cloudflare
                 await cheerpjRunJar("/app/HongKong.jar");
-            } catch (e) {
-                console.error("Erro ao iniciar o jogo:", e);
+            } catch (err) {
+                console.error("O motor falhou ao iniciar:", err);
             }
         };
     </script>
