@@ -2,40 +2,29 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donkey Kong Web - CheerpJ 4.2</title>
-    
+    <title>Donkey Kong Web - Java 17</title>
     <script src="https://cjrtnc.leaningtech.com/4.2/loader.js"></script>
 </head>
 <body style="margin:0; background:#000; color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; font-family: sans-serif;">
 
-    <h2 id="status">A carregar Donkey Kong...</h2>
-    <div id="game-container" style="border: 2px solid #555; width:480px; height:500px; background:#111; display:flex; justify-content:center; align-items:center;">
-        <span id="loading-text">A inicializar JVM 4.2...</span>
-    </div>
+    <h2 id="status">A carregar Donkey Kong (Java 17)...</h2>
+    <div id="game-container" style="border: 2px solid #555; width:480px; height:500px; background:#111;"></div>
 
     <script>
         window.onload = async function() {
-            const status = document.getElementById("status");
-            const log = document.getElementById("loading-text");
-
             try {
-                // 1. Inicializa o motor (Versão 4.2)
-                await cheerpjInit();
+                // ESTA É A LINHA CRÍTICA: Ativa o suporte para Java 17
+                await cheerpjInit({version: 17});
                 
-                // 2. Cria o ecrã para o Swing (ImageGUI.java)
                 cheerpjCreateDisplay(480, 500, document.getElementById("game-container"));
                 
-                // 3. Executa o teu JAR de 40KB
-                // O CheerpJ mapeia automaticamente os ficheiros do teu GitHub para /app/
-                log.innerText = "A carregar recursos do jogo...";
+                // Corre o JAR que já confirmaste que está em Java 17
                 await cheerpjRunJar("/app/HongKong.jar");
                 
-                status.innerText = "Donkey Kong - Pronto a Jogar";
+                document.getElementById("status").innerText = "Donkey Kong - Pronto!";
             } catch (err) {
-                status.innerText = "Erro no Arranque";
-                log.innerHTML = `<b style="color:red">Falha:</b> ${err.message}`;
-                console.error("Erro técnico detalhado:", err);
+                console.error("Erro detalhado:", err);
+                document.getElementById("status").innerText = "Erro ao iniciar o jogo.";
             }
         };
     </script>
