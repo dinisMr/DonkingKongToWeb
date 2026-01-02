@@ -11,13 +11,16 @@
     <div id="game-container" style="border: 2px solid #555; width:480px; height:500px;"></div>
 
     <script>
+        // Esta função só corre quando o motor estiver carregado
         window.onload = async function() {
-            // Inicializa o motor moderno
-            await cheerpjInit();
-            // Cria o ecrã
-            cheerpjCreateDisplay(480, 500, document.getElementById("game-container"));
-            // Corre o JAR binário diretamente
-            await cheerpjRunJar("/app/HongKong.jar");
+            try {
+                await cheerpjInit();
+                cheerpjCreateDisplay(480, 500, document.getElementById("game-container"));
+                // Corre o JAR de 40KB que já está no teu GitHub
+                await cheerpjRunJar("/app/HongKong.jar");
+            } catch (e) {
+                console.error("Erro ao iniciar o jogo:", e);
+            }
         };
     </script>
 </body>
