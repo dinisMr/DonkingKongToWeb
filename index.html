@@ -1,21 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <title>Donkey Kong Web</title>
     <script src="https://cjrtnc.leaningtech.com/3.0/loader.js"></script>
 </head>
-<body style="margin:0; background:#000; display:flex; justify-content:center; align-items:center; height:100vh;">
-    <div id="container" style="width:480px; height:500px;"></div>
+<body style="margin:0; background:#1a1a1a; color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh;">
+
+    <h2>Donkey Kong - Java Web Edition</h2>
+    <div id="game-container" style="border: 2px solid #555; width:480px; height:500px;"></div>
+
     <script>
         window.onload = async function() {
-            // 2. Inicializa o motor
+            // Inicializa o motor moderno
             await cheerpjInit();
-            // 3. Tenta carregar o JAR de 39KB
-            // Certifique-se que o nome no GitHub é exatamente HongKong.jar
-            await cheerpjRunJar("HongKong.jar");
+            // Cria o ecrã
+            cheerpjCreateDisplay(480, 500, document.getElementById("game-container"));
+            // Corre o JAR binário diretamente
+            await cheerpjRunJar("/app/HongKong.jar");
         };
     </script>
 </body>
 </html>
-
