@@ -1,49 +1,37 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Donkey Kong Web</title>
-    <script src="https://cjrtnc.leaningtech.com/3.0/loader.js"></script>
-    <style>
-        body { margin: 0; background: #000; color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; }
-        #game-container { border: 2px solid #333; background: #111; }
-        #status { margin-bottom: 20px; font-size: 18px; color: #ffcc00; }
-    </style>
+    <script src="https://cjrtnc.leaningtech.com/2.1/loader.js"></script>
 </head>
-<body>
-    <div id="status">A aguardar pelo motor CheerpJ...</div>
-    <div id="game-container"></div>
+<body style="margin:0; background:#000; color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; font-family:sans-serif;">
+
+    <div id="status">A preparar motor Java...</div>
+    <div id="game-container" style="width:800px; height:600px; border:2px solid #444;"></div>
 
     <script>
-        async function initialize() {
+        window.onload = function() {
             const status = document.getElementById('status');
             
-            // 1. Verifica se o script do motor foi carregado pelo browser
-            if (typeof cheerpjInit === "undefined") {
-                status.innerText = "Erro: O ficheiro loader.js não foi carregado. Verifica a tua ligação ou AdBlock.";
-                status.style.color = "red";
-                return;
-            }
-
-            try {
-                status.innerText = "Motor detetado. A inicializar Java...";
-                await cheerpjInit();
+            if (typeof cheerpjInit !== "undefined") {
+                status.innerText = "Motor carregado! A iniciar o jogo...";
                 
-                status.innerText = "A carregar HongKong.jar (isto pode demorar)...";
+                // Inicializa o motor v2.1
+                cheerpjInit();
+                
+                // Cria o ecrã do jogo
                 cheerpjCreateDisplay(800, 600, document.getElementById("game-container"));
                 
-                // O caminho /app/ é essencial para o Cloudflare Pages encontrar o JAR
-                await cheerpjRunJar("/app/HongKong.jar");
+                // Corre o teu JAR (garante que o nome está igual ao GitHub)
+                cheerpjRunJar("/app/HongKong.jar");
                 
-                status.innerText = "Jogo pronto!";
-            } catch (err) {
-                status.innerText = "Erro ao iniciar o jogo. Vê a consola (F12).";
-                console.error(err);
+                status.style.display = "none"; // Esconde o texto quando o jogo começa
+            } else {
+                status.innerText = "Erro: O motor continua bloqueado. Tenta desativar o 'Bot Fight Mode' no Cloudflare.";
+                status.style.color = "red";
             }
-        }
-
-        // Executa apenas quando a página e os scripts estiverem 100% carregados
-        window.addEventListener('load', initialize);
+        };
     </script>
 </body>
 </html>
