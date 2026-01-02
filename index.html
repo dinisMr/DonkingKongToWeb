@@ -12,23 +12,19 @@
     
     <div id="game-container" style="border: 2px solid #555; box-shadow: 0 0 20px rgba(0,0,0,0.5);"></div>
 
-    <script>
-        window.onload = async function() {
-            // 1. Inicializa o ambiente Java
-            await cheerpjInit();
-            
-            // 2. Cria o ecrã de visualização (ajustado para os 480x480 + status bar do teu código Java)
-            // O teu ImageGUI.java define por defeito 480x480 
-            cheerpjCreateDisplay(480, 500, document.getElementById("game-container"));
-            
-            // 3. Executa o ficheiro JAR
-            // O caminho /app/ refere-se à raiz onde o index.html está alojado
-            await cheerpjRunJar("/app/HongKong.jar");
-        };
-    </script>
+  <script src="https://cjrtnc.leaningtech.com/3.0/loader.js"></script>
+<script>
+    window.onload = async function() {
+        await cheerpjInit();
+        cheerpjCreateDisplay(480, 500, document.getElementById("game-container"));
+        // A versão 3.0 lê o JAR diretamente sem inventar um .js
+        await cheerpjRunJar("/app/HongKong.jar");
+    };
+</script>
 
     <div style="margin-top: 20px; color: #888; font-size: 0.9em;">
         Utiliza as setas do teclado para jogar.
     </div>
 </body>
 </html>
+
