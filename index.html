@@ -1,21 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Donkey Kong Web</title>
     <script src="https://cjrtnc.leaningtech.com/3.0/loader.js"></script>
 </head>
-<body style="margin:0; background:#000; display:flex; justify-content:center; align-items:center; height:100vh;">
-
+<body>
     <div id="container" style="width:480px; height:500px;"></div>
-
     <script>
         window.onload = async function() {
-            // 2. Inicializa o motor
             await cheerpjInit();
-            
-            // 3. Corre o JAR original (sem .js no fim)
-            // Certifica-te que o nome é exatamente HongKong.jar como na tua pasta
+            // Se o erro de MIME type aparecer aqui, o servidor não encontra o JAR
             await cheerpjRunJar("/app/HongKong.jar");
         };
     </script>
