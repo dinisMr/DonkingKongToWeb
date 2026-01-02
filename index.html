@@ -2,24 +2,45 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title>Donkey Kong Web</title>
-    <script src="https://cjrtnc.leaningtech.com/3.0/loader.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donkey Kong Web - CheerpJ 4.2</title>
+    
+    <script src="loader.js" onerror="document.getElementById('loading-text').innerHTML='<b style=color:red>ERRO: loader.js não encontrado no servidor!</b>'"></script>
 </head>
-<body style="margin:0; background:#1a1a1a; color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh;">
+<body style="margin:0; background:#000; color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; font-family: sans-serif;">
 
-    <h2>Donkey Kong - Java Web Edition</h2>
-    <div id="game-container" style="border: 2px solid #555; width:480px; height:500px;"></div>
+    <h2 id="status">A inicializar motor 4.2...</h2>
+    <div id="game-container" style="border: 2px solid #444; width:480px; height:500px; background:#111; display:flex; justify-content:center; align-items:center;">
+        <span id="loading-text">A aguardar JVM...</span>
+    </div>
 
     <script>
         window.onload = async function() {
+            const statusLabel = document.getElementById("status");
+            const log = document.getElementById("loading-text");
+
             try {
-                // Tenta ligar o motor 3.0
+                // 1. Verificar se o motor carregou
+                if (typeof cheerpjInit === "undefined") throw new Error("Motor CheerpJ não carregado.");
+
+                // 2. Inicializar (Versão 4.2 suporta inicialização assíncrona robusta)
+                log.innerText = "A montar sistema de ficheiros virtual...";
                 await cheerpjInit();
+                
+                // 3. Definir ecrã de exibição
                 cheerpjCreateDisplay(480, 500, document.getElementById("game-container"));
-                // Pede o ficheiro que VIMOS na lista de assets do Cloudflare
+                
+                // 4. Executar o JAR de 39.2 KB
+                log.innerText = "A carregar HongKong.jar...";
                 await cheerpjRunJar("/app/HongKong.jar");
+                
+                statusLabel.innerText = "Donkey Kong - Running (4.2)";
+                console.log("CheerpJ: Sucesso no arranque.");
+
             } catch (err) {
-                console.error("O motor falhou ao iniciar:", err);
+                statusLabel.innerText = "Falha no Arranque";
+                log.innerHTML = `<span style="color:red">Causa: ${err.message}</span><br><small>Verifica a Consola (F12)</small>`;
+                console.error("Erro detalhado do CheerpJ:", err);
             }
         };
     </script>
