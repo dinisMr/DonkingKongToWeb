@@ -2,55 +2,48 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donkey Kong Web Edition</title>
-    
+    <title>Donkey Kong Web</title>
     <script src="https://cjrtnc.leaningtech.com/3.0/loader.js"></script>
-    
     <style>
-        body { 
-            margin: 0; background-color: #111; 
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center; 
-            height: 100vh; color: white; font-family: sans-serif;
-        }
-        #game-container { box-shadow: 0 0 30px rgba(0,0,0,0.7); border: 3px solid #333; }
-        #status { margin-bottom: 20px; font-size: 18px; color: #aaa; }
+        body { margin: 0; background: #000; color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; }
+        #game-container { border: 2px solid #333; background: #111; }
+        #status { margin-bottom: 20px; font-size: 18px; color: #ffcc00; }
     </style>
 </head>
 <body>
-
-    <div id="status">A preparar motor Java...</div>
+    <div id="status">A aguardar pelo motor CheerpJ...</div>
     <div id="game-container"></div>
 
     <script>
-        async function loadGame() {
+        async function initialize() {
             const status = document.getElementById('status');
             
-            // Verifica se a biblioteca carregou mesmo
+            // 1. Verifica se o script do motor foi carregado pelo browser
             if (typeof cheerpjInit === "undefined") {
-                status.innerText = "Erro: Motor de tradução não carregou. Recarrega a página.";
+                status.innerText = "Erro: O ficheiro loader.js não foi carregado. Verifica a tua ligação ou AdBlock.";
                 status.style.color = "red";
                 return;
             }
 
-            status.innerText = "A carregar ficheiros do jogo (isto pode demorar 1 min)...";
-            
             try {
+                status.innerText = "Motor detetado. A inicializar Java...";
                 await cheerpjInit();
+                
+                status.innerText = "A carregar HongKong.jar (isto pode demorar)...";
                 cheerpjCreateDisplay(800, 600, document.getElementById("game-container"));
+                
+                // O caminho /app/ é essencial para o Cloudflare Pages encontrar o JAR
                 await cheerpjRunJar("/app/HongKong.jar");
-                status.innerText = "Bom jogo!";
-            } catch (e) {
-                status.innerText = "Erro ao iniciar o jogo. Verifica a consola (F12).";
-                console.error(e);
+                
+                status.innerText = "Jogo pronto!";
+            } catch (err) {
+                status.innerText = "Erro ao iniciar o jogo. Vê a consola (F12).";
+                console.error(err);
             }
         }
-        
-        // Pequeno atraso para garantir que o script externo foi processado
-        window.onload = () => {
-            setTimeout(loadGame, 500);
-        };
+
+        // Executa apenas quando a página e os scripts estiverem 100% carregados
+        window.addEventListener('load', initialize);
     </script>
 </body>
 </html>
