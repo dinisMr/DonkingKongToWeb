@@ -5,32 +5,14 @@
     <title>Donkey Kong Web</title>
     <script src="https://cjrtnc.leaningtech.com/2.1/loader.js"></script>
 </head>
-<body style="margin:0; background:#000; color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; font-family:sans-serif;">
-
-    <div id="status">A preparar motor Java...</div>
-    <div id="game-container" style="width:800px; height:600px; border:2px solid #444;"></div>
-
+<body style="margin:0; background:#000; color:#fff; display:flex; justify-content:center; align-items:center; height:100vh;">
+    <div id="game-container"></div>
     <script>
-        window.onload = function() {
-            const status = document.getElementById('status');
-            
-            if (typeof cheerpjInit !== "undefined") {
-                status.innerText = "Motor carregado! A iniciar o jogo...";
-                
-                // Inicializa o motor v2.1
-                cheerpjInit();
-                
-                // Cria o ecrã do jogo
-                cheerpjCreateDisplay(800, 600, document.getElementById("game-container"));
-                
-                // Corre o teu JAR (garante que o nome está igual ao GitHub)
-                cheerpjRunJar("/app/HongKong.jar");
-                
-                status.style.display = "none"; // Esconde o texto quando o jogo começa
-            } else {
-                status.innerText = "Erro: O motor continua bloqueado. Tenta desativar o 'Bot Fight Mode' no Cloudflare.";
-                status.style.color = "red";
-            }
+        window.onload = async function() {
+            await cheerpjInit();
+            cheerpjCreateDisplay(800, 600, document.getElementById("game-container"));
+            // O segredo está em garantir que o JAR corre no contexto da raiz /app/
+            await cheerpjRunJar("/app/HongKong.jar");
         };
     </script>
 </body>
